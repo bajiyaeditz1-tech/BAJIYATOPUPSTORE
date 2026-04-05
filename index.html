@@ -1257,7 +1257,7 @@
         <!-- Membership Page -->
         <div id="membership-page" class="page"><header class="page-header"><h1 class="store-name"> Membership</h1></header><section class="products"><h2></h2><div class="membership-grid"><div class="membership-card"><img src="https://files.catbox.moe/7iwt8b.jpg" alt="membership"><h3>Weekly Lite</h3><button class="price-btn">LKR 150</button></div><div class="membership-card"><img src="https://files.catbox.moe/h00ngb.jpg" alt="membership"><h3>Weekly</h3><button class="price-btn">LKR 550</button></div><div class="membership-card"><img src="https://files.catbox.moe/mzp271.jpg" alt="membership"><h3>Weekly Max</h3><button class="price-btn">LKR 700</button></div><div class="membership-card"><img src="https://files.catbox.moe/39jjgw.jpg" alt="membership"><h3>Monthly </h3><button class="price-btn">LKR 2550</button></div><div class="membership-card"><img src="https://files.catbox.moe/9cjxj6.jpg" alt="membership"><h3>Vip Pack</h3><button class="price-btn">LKR 3100</button></div><div class="membership-card"><img src="https://files.catbox.moe/r57f80.jpg" alt="membership"><h3>Vip Special</h3><button class="price-btn">LKR 4750</button></div></div></section></div>
 
-        <!-- ORDER PAGE with Fixed Receipt Delivery (Image hosted & URL sent) -->
+        <!-- ORDER PAGE with Fixed Receipt Delivery (using Telegra.ph for CORS-safe upload) -->
         <div id="order-page" class="page"><header class="page-header"><h1 class="store-name"> Order</h1></header><div class="order-container"><h2>Payment Details</h2>
             <div class="payment-image">
                 <img src="https://files.catbox.moe/93569r.jpg" alt="EZ Payment QR / Instruction" loading="lazy">
@@ -1351,24 +1351,27 @@
         const statsContainerElem = document.getElementById('statsContainer');
         if (statsContainerElem) observer.observe(statsContainerElem);
         
-        // ========== ORDER FORM WITH RELIABLE RECEIPT DELIVERY ==========
-        // Uploads image to 0x0.st (free, no API key) then sends the URL + order details to FormSubmit
-        
+        // ========== ORDER FORM WITH FIXED RECEIPT DELIVERY (Telegra.ph) ==========
+        // Telegra.ph supports CORS, no API key required.
         const orderForm = document.getElementById('orderForm');
         const overlay = document.getElementById('processingOverlay');
         
         async function uploadReceiptToHost(file) {
             const formData = new FormData();
             formData.append('file', file);
-            const response = await fetch('https://0x0.st', {
+            const response = await fetch('https://telegra.ph/upload', {
                 method: 'POST',
                 body: formData
             });
             if (!response.ok) {
                 throw new Error(`Upload failed with status ${response.status}`);
             }
-            const imageUrl = await response.text();
-            return imageUrl.trim(); // returns direct link like https://0x0.st/xxxxx
+            const result = await response.json();
+            if (!result || !result[0] || !result[0].src) {
+                throw new Error('Invalid response from image host');
+            }
+            const imageUrl = 'https://telegra.ph' + result[0].src;
+            return imageUrl;
         }
         
         if (orderForm) {
@@ -1394,7 +1397,7 @@
                 document.getElementById('processingDetail').innerHTML = 'Securely uploading your payment proof. This may take a few seconds.';
                 
                 try {
-                    // Step 1: Upload receipt image to 0x0.st
+                    // Step 1: Upload receipt image to Telegra.ph (CORS-safe)
                     let imageUrl;
                     try {
                         imageUrl = await uploadReceiptToHost(receiptFile);
@@ -1417,7 +1420,7 @@
                     formDataToSend.append('quantity', qty);
                     formDataToSend.append('user_id', uid);
                     formDataToSend.append('receipt_image_url', imageUrl);
-                    formDataToSend.append('order_summary', `${pkg} | Quantity: ${qty} | Game ID: ${uid}\n📸 Receipt link: ${imageUrl}`);
+                    formDataToSend.append('order_summary', `${pkg} | Quantity: ${qty} | Game ID: ${uid}\n📸 Receipt link (click to view): ${imageUrl}`);
                     
                     const response = await fetch('https://formsubmit.co/ajax/bajiyatopup@gmail.com', {
                         method: 'POST',
