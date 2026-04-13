@@ -1216,7 +1216,7 @@
         <!-- Home Page -->
         <div id="home-page" class="page active-page">
             <header class="page-header"><h1 class="store-name">WELCOME TO BAJIYA TOPUP STORE</h1></header>
-            <div class="slider-container"><img id="slider-image" src="https://files.catbox.moe/g0bxjc.jpg" alt="Slider Image"><div class="slider-indicators"><span class="dot active" onclick="currentSlide(0)"></span><span class="dot" onclick="currentSlide(1)"></span><span class="dot" onclick="currentSlide(2)"></span></div></div>
+            <div class="slider-container"><img id="slider-image" src="https://i.ibb.co/sp12WmQR/bajiya-z.png" alt="Slider Image"><div class="slider-indicators"><span class="dot active" onclick="currentSlide(0)"></span><span class="dot" onclick="currentSlide(1)"></span><span class="dot" onclick="currentSlide(2)"></span></div></div>
             <section class="home-categories">
                 <div class="best-experience">The Best Free fire Top-Up Experience In sri lanka</div>
                 <div class="trust-text">Discover why thousands of games trust Bajiya Topup for instant, cheap and secure top-up — we are dedicated to providing the fastest service for Free Fire.</div>
@@ -1261,7 +1261,7 @@
         <!-- ORDER PAGE - FIXED WITH RELIABLE EMAIL + ATTACHMENT -->
         <div id="order-page" class="page"><header class="page-header"><h1 class="store-name"> Order</h1></header><div class="order-container"><h2>Payment Details</h2>
             <div class="payment-image">
-                <img src="https://files.catbox.moe/93569r.jpg" alt="EZ Payment QR / Instruction" loading="lazy">
+                <img src="https://i.ibb.co/trZDHdt/images.jpg" alt="EZ Payment QR / Instruction" loading="lazy">
             </div>
             <div class="ez-section">
                 <span class="ez-number" id="ezNumber">0760927037</span>
@@ -1323,7 +1323,7 @@
         function showPage(pageId) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page')); document.getElementById(pageId + '-page')?.classList.add('active-page'); document.querySelectorAll('.nav-icon').forEach(icon => icon.classList.remove('active')); document.getElementById('nav-' + pageId)?.classList.add('active'); }
         function copyEZ() { const ez = document.getElementById('ezNumber').innerText; navigator.clipboard.writeText(ez).then(() => { const msg = document.getElementById('copyMessage'); msg.classList.add('show'); setTimeout(() => msg.classList.remove('show'), 2000); }).catch(() => alert('Failed to copy')); }
         const sliderImg = document.getElementById('slider-image');
-        if (sliderImg) { const images = ['https://files.catbox.moe/vp180f.jpg', 'https://files.catbox.moe/npp51r.jpg', 'https://files.catbox.moe/vcd0y1.jpg']; let idx = 0; const dots = document.querySelectorAll('.dot'); function showSlide(i) { if (i >= images.length) i = 0; if (i < 0) i = images.length-1; sliderImg.src = images[i]; dots.forEach((d, k) => d.classList.toggle('active', k === i)); idx = i; } window.currentSlide = showSlide; setInterval(() => { showSlide((idx+1)%images.length); }, 6000); showSlide(0); }
+        if (sliderImg) { const images = ['https://i.ibb.co/sp12WmQR/bajiya-z.png', 'https://i.ibb.co/PGVNSXx4/baiya-pynmr-pngw.png', 'https://i.ibb.co/Y7GmL5mM/ai-repair-20260403213619128-jpg.png']; let idx = 0; const dots = document.querySelectorAll('.dot'); function showSlide(i) { if (i >= images.length) i = 0; if (i < 0) i = images.length-1; sliderImg.src = images[i]; dots.forEach((d, k) => d.classList.toggle('active', k === i)); idx = i; } window.currentSlide = showSlide; setInterval(() => { showSlide((idx+1)%images.length); }, 6000); showSlide(0); }
         const themeToggle = document.getElementById('theme-toggle'), iconBtn = themeToggle.querySelector('i'); if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-theme'); iconBtn.classList.replace('fa-moon', 'fa-sun'); } themeToggle.addEventListener('click', () => { document.body.classList.toggle('light-theme'); const isLight = document.body.classList.contains('light-theme'); iconBtn.classList.replace(isLight ? 'fa-moon' : 'fa-sun', isLight ? 'fa-sun' : 'fa-moon'); localStorage.setItem('theme', isLight ? 'light' : 'dark'); });
         
         // ========== STATS COUNT-UP ==========
